@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Product;
 use App\Category;
 
 class WelcomeController extends Controller
 {
-    public function welcome(){
+    public function show(){
 
-    	$products=Product::paginate(12);
+    	$categories=Category::has('products')->get();
     	
-    	return view('welcome',compact('products'));
+    	return view('welcome',compact('categories'));
     }
 }

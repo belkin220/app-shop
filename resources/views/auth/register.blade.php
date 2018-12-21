@@ -72,8 +72,13 @@
                         </div>
                     </div>
                     <div class="footer text-center">
-                        <button type="submit" class="btn btn-simple btn-primary btn-lg">Confirmar registro</button>
+                        <button type="submit" class="btn btn-primary btn-round">Registro</button>
+                    @if(Session::has('aviso'))
+                    <a href="{{route('login')}}" type="button" class="btn btn-primary btn-round">Login</button>
                     </div>
+                   
+                    @endif
+ {{session('aviso')}}
                     <!-- <a class="btn btn-link" href="{{ route('password.request') }}">
                            {{ __('Forgot Your Password?') }}
                                        

@@ -49,16 +49,21 @@
        <?php 
        $count = auth()->user()->cart->details->count();
        ?>
-        @if($count > 1)
-        <p>Tienes {{$count}} productos en tu carrito.</p>
-        @endif
-        @if ($count == 0)
-         <p>Tu carrito de compras está vacío.</p>
-        @endif
-        @if ($count == 1)
-        <p>Tienes {{$count}} producto en tu carrito.</p>
-        @endif
-<table class = "table table-bordered" style="margin-top: 50px">
+        @switch($count)
+            @case( $count == 0 )
+            <span class="label label-info"><b> Tu carrito de compras está vacío.</b></span>
+            @break;
+
+            @case( $count == 1 )
+            <span class="label label-info"><b>Tienes {{$count}} producto en tu carrito.</b></span>
+            @break;
+
+            @case( $count > 1 )
+            <span class="label label-info"><b>Tienes {{$count}} productos en tu carrito.</b></span>
+            @break
+        @endswitch
+        
+                <table class = "table table-bordered" style="margin-top: 50px">
                     <thead>
                         <tr>
                             <th class = "text-center"> Imagen </th>
@@ -74,17 +79,17 @@
                         <tr>
                             <td class="text-center" style="vertical-align: middle;"><img src="{{$detail->product->featured_image_url}}" width="50" height="50">
                              </td>
-                            <td style="vertical-align: middle;text-align: left;"><a href="{{route('customer.products.show',$detail->product->id)}}" title="{{
+                            <td style="vertical-align: middle;text-align: left;"><a href="{{route('products.show',$detail->product->id)}}" title="{{
                                 $detail->product->name}}" target="_blank" >{{$detail->product->name}}</a> </td>
-                            <td class = "text-right" style="vertical-align: middle;"> {{$detail->product->price}} &euro; </td>
+                            <td class = "text-right" style="vertical-align: middle;"> {{str_replace(".", ",",number_format($detail->product->price,2))}} &euro; </td>
                             <td class = "text-center" style="vertical-align: middle"> {{$detail->quantity}} </td>
-                            <td class = "text-center" style="vertical-align: middle"> {{$detail->quantity * $detail->product->price }} &euro; </td>
+                            <td class = "text-center" style="vertical-align: middle"> {{str_replace(".", ",", number_format($detail->quantity * $detail->product->price,2)) }} &euro; </td>
                            
                             <td class = "td-actions text-center" style="vertical-align: middle">
                                 <form action="{{route('cart.delete',$detail->id )}}" method="POST">
                                     {{csrf_field()}}
                                     {{method_field('DELETE')}}
-                                     <a  href="{{route('customer.products.show',$detail->product->id)}}" role = "button" target="_blank" rel = "tooltip" title = "Ver producto" class = "btn btn-info btn-simple btn-xs">
+                                     <a  href="{{route('products.show',[$detail->product->id,'carrito'=>true])}}" role = "button" rel = "tooltip" title = "Ver producto" class = "btn btn-info btn-simple btn-xs">
                                     <i class = "fa fa-info"> </i>
                                 </a>
                                 <button type = "submit" rel = "tooltip" title = "Eliminar producto" class = "btn btn-danger btn-simple btn-xs">
@@ -96,6 +101,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                <p><strong>Total a pagar (incluido I.V.A.) : </strong> {{auth()->user()->cart->total}} &euro;</p>
                 <div class="text-center col-md-6">
                 <a href="{{route('welcome')}}#welcome" class="btn btn-primary btn-round">
     <i class="material-icons">shopping_basket</i> Seguir comprando
@@ -111,28 +117,5 @@
     </form>
 </div>
 
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-    </div>
-</div>
 
 @endsection

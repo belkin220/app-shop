@@ -11,4 +11,15 @@ class Cart extends Model
     {
     	return $this->hasMany(CartDetail::class);
     }
+
+    public function getTotalAttribute()
+    {
+    	$total = 0;
+    	foreach($this->details as $detail) {
+    		$total += ($detail->quantity * $detail->product->price);
+    		
+
+    	}
+    	return str_replace('.', ',',number_format($total,2)) ;
+    }
 }

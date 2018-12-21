@@ -30,14 +30,14 @@
             <div class="col-sm-6">
                 <div class="form-group label-floating">
                     <label class="control-label">Nombre del producto </label>
-                    <input type="text" class="form-control"name="name" id="name" value={{old('name',$product->name)}}>
+                    <input type="text" class="form-control"name="name" id="name" value="{{old('name',$product->name)}}">
                 </div>
             </div>
 
             <div class="col-sm-6">
                  <div class="form-group label-floating">
                     <label class="control-label">Precio del producto </label>
-                    <input type="number" step="0.01" class="form-control"name="price" id="price" value={{old('price',$product->price)}}>
+                    <input type="number" step="0.01" class="form-control"name="price" id="price" value="{{old('price',$product->price)}}">
                 </div>
             </div>
         
@@ -45,7 +45,7 @@
         <div class="col-sm-6">
             <div class="form-group label-floating">
                     <label class="control-label">Descripción </label>
-                    <input type="text" class="form-control"name="description" id="description" value={{old('description',$product->description)}}>
+                    <input type="text" class="form-control"name="description" id="description" value="{{old('description',$product->description)}}">
             </div>
         </div>
 

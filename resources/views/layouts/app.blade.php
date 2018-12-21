@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="{{asset('img/favicon.png')}}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>@yield('title', 'App Shop')</title>
+    <title>@yield('title', config('app.name'))</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 
@@ -19,10 +19,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
     <!-- CSS Files -->
-    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.1/css/bootstrap.min.css" />
     <link href="{{asset('css/material-kit.css')}}" rel="stylesheet"/>
+   
     <!-- Custom styles -->
     @yield('styles')
+   
 </head>
 
 <body class= " @yield('body-class') ">
@@ -36,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{url('/')}}">App Shop</a>
+                <a class="navbar-brand" href="{{url('/#shop')}}">{{config('app.name')}}</a>
             </div>
 
             <div class="collapse navbar-collapse" id="navigation-example">
@@ -62,7 +65,10 @@
                             </li>
                             @if(Auth::user()->admin)
                             <li>
-                             <a href="{{url('admin/products')}}">Gestionar productos</a>   
+                             <a href="{{route('admin.products')}}">Gestionar productos</a>   
+                            </li>
+                             <li>
+                             <a href="{{route('admin.category')}}">Gestionar categorias</a>   
                             </li>
                             @endif
                             <li>
@@ -110,7 +116,9 @@
    </body>
     <!--   Core JS Files   -->
     <script src="{{asset('js/jquery.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('js/bootstrap.min.js')}}" type="text/javascript"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   
+  {{--  <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/0.11.1/typeahead.bundle.js"></script> --}}
     <script src="{{asset('js/material.min.js')}}"></script>
     <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
     <script src="{{asset('js/nouislider.min.js')}}" type="text/javascript"></script>
@@ -118,6 +126,10 @@
     <script src="{{asset('js/bootstrap-datepicker.js')}}" type="text/javascript"></script>
     <!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
     <script src="{{asset('js/material-kit.js')}}" type="text/javascript"></script>
+
+  <!-- Custom JS -->
+    @yield('scripts')
+
 
 </html>
 

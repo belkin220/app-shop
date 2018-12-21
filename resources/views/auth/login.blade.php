@@ -6,6 +6,7 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
             <div class="card card-signup">
+                
                 <form method="POST" action="{{ route('login') }}">
                         @csrf
                     <div class="header header-primary text-center">
@@ -58,6 +59,19 @@
                             </label>
                         </div>
                     </div>
+                    @if(session('aviso'))
+                <div class="alert alert-success" style="margin-top: 25px">
+                          <div class="container-fluid">
+                            <div class="alert-icon">
+                              <i class="material-icons">check</i>
+                            </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                            </button>
+                             {{session('aviso')}}
+                           </div>
+                      </div>
+                      @endif
                     <div class="footer text-center">
                         <button type="submit" class="btn btn-simple btn-primary btn-lg">Login</button>
                     </div>

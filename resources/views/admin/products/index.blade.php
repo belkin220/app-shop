@@ -34,7 +34,7 @@
                             <td class = "td-actions text-right" style="vertical-align: middle;text-align: right;">
                                 <form action="{{route('admin.products.delete',$product->id )}}" method="POST">
                                     {{csrf_field()}}
-                                     <a  href="#" role = "button" rel = "tooltip" title = "Ver producto" class = "btn btn-info btn-simple btn-xs">
+                                     <a  href="{{url('admin/products',$product->id)}}" role = "button" rel = "tooltip" title = "Ver producto"  target="_blank" class = "btn btn-info btn-simple btn-xs">
                                     <i class = "fa fa-info"> </i>
                                 </a>
                                 <a href="{{ route('admin.products.edit',$product->id )}}" role = "button" rel = "tooltip" title = "Editar producto: {{$product->id}}  " class = "btn btn-success btn-simple btn-xs">

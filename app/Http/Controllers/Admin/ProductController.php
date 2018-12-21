@@ -49,8 +49,25 @@ class ProductController extends Controller
 
 		return redirect('admin/products');
 	}
+
+	public function show(Product $product) 
+	{
+		$images = $product->images;
+
+    	$imagesLeft = collect();
+    	$imagesRight = collect();
+
+    	foreach($images as $key => $image) {
+    		if($key%2 == 0)
+    			$imagesLeft->push($image);
+    		else
+    			$imagesRight->push($image);
+    	}
+
+		return view('admin.products.show',compact('product','imagesLeft', 'imagesRight'));
+	}	
 	
-	public function edit($id) 
+	public function edit($product) 
 	{
 
 		$product=Product::find($id);
@@ -59,7 +76,7 @@ class ProductController extends Controller
 		return view('admin.products.edit',compact('product', 'categories'));
 	}
 
-	public function update(Request $request, $id) 
+	public function update(Request $request, $product) 
 	{
 		//validación
 		$rules=[

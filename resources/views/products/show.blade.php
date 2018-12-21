@@ -37,11 +37,13 @@
             <div class="description text-center">
                 <p>{{$product->long_description}} </p>
             </div>
-            <div class="text-center">
+           
+            <div class="text-center"> 
+              
             <button class="btn btn-primary btn-round"  data-toggle="modal" data-target="#modalAddToCart">
                 <i class="material-icons">add_shopping_cart</i> Añadir al carrito
                 </button>
-                 @if (session('notification'))
+                @if (session('notification') || $carrito )
                  <a href="{{route('home')}}" class="btn btn-info btn-round" title="">Ver Carrito</a>
                  @endif
             </div>
@@ -77,6 +79,7 @@
     </div>
 </div>
  <!-- Modal Core -->
+
             <div class="modal fade" id="modalAddToCart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -98,5 +101,6 @@
           </div>
               </div>
             </div>
+          
 
 @endsection

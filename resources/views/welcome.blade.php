@@ -1,23 +1,66 @@
 @extends('layouts.app')
 @section('body-class','landing-page')
 
-@section('title','Bienvenido a App Shop')
+@section('title','Bienvenido a ' . config('app.name'))
 
 @section('styles')
     <style >
     .team .row .col-md-4 {margin-bottom: 5em;}
-    .row {
+    .team .row {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
       display:         flex;
       flex-wrap: wrap;
     }
-    .row > [class*='col-'] {
+   .team .row > [class*='col-'] {
       display: flex;
       flex-direction: column;
     }
+
+    .tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-menu {    /* used to be tt-dropdown-menu in older versions */
+  width: 200px;
+  margin-top: 4px;
+  padding: 4px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  line-height: 24px;
+}
+
+.tt-suggestion.tt-cursor,.tt-suggestion:hover {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+  
         </style>
+   
 @endsection
 
 @section('content')
@@ -26,7 +69,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <h1 class="title">Bienvenido a App Shop.</h1>
+            <h1 class="title">Bienvenido a {{config('app.name')}}.</h1>
             <h4>Realiza pedidos en línea y te contactaremos para coordinar la entrega.</h4>
             <br />
             <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn btn-danger btn-raised btn-lg">
@@ -42,8 +85,8 @@
     <div class="section text-center section-landing">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <h2 class="title">Por qué App Shop</h2>
-                <h5 class="description">Puedes revisar nuestra relación completa de productos, comparar precios y realizar tus pedidos cuando estés seguro.</h5>
+                <h2 class="title" id="shop">Por qué {{config('app.name')}}</h2>
+                <h5 class="description">Puedes revisar nuestra relación completa de categoryos, comparar precios y realizar tus pedidos cuando estés seguro.</h5>
             </div>
         </div>
 
@@ -72,7 +115,7 @@
                         <div class="icon icon-danger">
                             <i class="material-icons">fingerprint</i>
                         </div>
-                        <h4 class="info-title">TInformación privada</h4>
+                        <h4 class="info-title">Información privada</h4>
                         <p>Los pedidos que realices sólo loa conocerás tú a través del panel de usuario.</p>
                     </div>
                 </div>
@@ -80,36 +123,41 @@
         </div>
     </div>
 
-    <div class="section text-center">
-        <h2 class="title" id="welcome">Productos disponibles</h2>
-
-        <div class="team">
+    <div class="section text-center" style="margin-top: -150px">
+        <h2 class="title" id="welcome">Visita nuestras categorias</h2>
+   
+ <div class="section text-center" style="margin-top: -75px">
+        <form class="form-inline" method="get" action="{{url('/search')}}">
+            <input type="text" name="query" id="search"  value="" placeholder="Buscar un producto..." autocomplete="off" class="form-control" >
+            <button class="btn btn-primary btn-just-icon" type="submit">
+                <i class="material-icons">search</i>
+            </button>
+          
+        </form>
+  </div> 
+</div>
+  
+<div class="team" style="margin-top: -50px">
             <div class="row">
-                @foreach($products as $product)
+                @foreach($categories as $category)
                 <div class="col-md-4">
                     <div class="team-player">
                         <!-- Se ha definido un accesor en el modelo-->
-                        <img src="{{$product->featured_image_url}}" alt="Thumbnail Image" class="img-raised img-circle">
+                        <img src="{{$category->featured_image_url}}" alt="Thumbnail Image" class="img-raised img-circle">
                         <h4 class="title">
-                            <a href="{{route('customer.products.show', $product->id)}}">{{$product->name}}</a>
+                            <a href="{{route('category.show', $category->id)}}">{{$category->name}}</a>
                             <br/>
-                            <small class="text-muted">{{$product->category->name}}</small>
+                            <small class="text-muted">{{$category->name}}</small>
                         </h4>
-                        <p class="description">{{$product->description}}</p>
+                        <p class="description">{{$category->description}}</p>
                        
                     </div>
                 </div>
                 @endforeach
             </div>
-            <div class="text-center">
-                {{$products->links()}}
-            </div>
-        </div>
-
-    </div>
-
-
-    <div class="section landing-section">
+          </div>
+      </div>
+        <div class="section landing-section">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h2 class="text-center title">¿Aún no te has registrado?</h2>
@@ -147,8 +195,33 @@
         </div>
 
     </div>
-</div>
 
-</div>
+@endsection
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.js"></script>
 
+ 
+<script>
+   
+   var products = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.whitespace,
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  // `states` is an array of state names defined in "The Basics"
+  prefetch: "{{url('products/json')}}"
+  });
+
+
+    $('#search').typeahead({
+        hint: true,
+        highlight: true,
+        minLenght: 1
+    },
+    {
+        name: 'products',
+        source: products
+    })
+
+   
+
+</script>
 @endsection

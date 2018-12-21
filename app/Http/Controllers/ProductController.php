@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\CAtegory;
 
 class ProductController extends Controller
 {
-    public function show($id)
+    public function show(Request $request,$id)
     {
+        $carrito = $request->carrito;
     	$product = Product::find($id);
-    	$images = $product->images;
+    	$images = $product->images()->get();
+       
 
     	$imagesLeft = collect();
     	$imagesRight = collect();
@@ -22,6 +25,7 @@ class ProductController extends Controller
     			$imagesRight->push($image);
     	}
 
-		return view('products.show',compact('product','imagesLeft', 'imagesRight'));
+		return view('products.show',compact('product','imagesLeft', 'imagesRight','carrito'));
     }
+   
 }
