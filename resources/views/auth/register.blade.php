@@ -10,17 +10,6 @@
                         @csrf
                     <div class="header header-primary text-center">
                         <h4>Registro</h4>
-                        {{-- <div class="social-line">
-                            <a href="#" class="btn btn-simple btn-just-icon">
-                                <i class="fa fa-facebook-square"></i>
-                            </a>
-                            <a href="#" class="btn btn-simple btn-just-icon">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                            <a href="#" class="btn btn-simple btn-just-icon">
-                                <i class="fa fa-google-plus"></i>
-                            </a>
-                        </div> --}}
                     </div>
                     <p class="text-divider">Todos los campos son obligatorios</p>
                     <div class="content">
@@ -29,7 +18,7 @@
                                         <span class="input-group-addon">
                                             <i class="material-icons">face</i>
                                         </span>
-                                        <input type="text" class="form-control" placeholder="Nombre completo" name="name" id="name" value="{{ old('name') }}"autofocus required >
+                                        <input type="text" class="form-control" placeholder="Nombre completo" name="name" id="name" value="{{ old('name',$name) }}"autofocus required >
                                     </div>
 
 
@@ -37,7 +26,7 @@
                             <span class="input-group-addon">
                                 <i class="material-icons">email</i>
                             </span>
-                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required placeholder="Correo electrónico">
+                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email', $email) }}" required placeholder="Correo electrónico">
                              @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('email') }}</strong>

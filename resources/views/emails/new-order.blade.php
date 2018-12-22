@@ -22,7 +22,7 @@
     <p><strong>Detalle del pedido:</strong></p>
     <ul>
        
-        <table>
+        <table class="table">
           
             <thead>
                 <th class="text-center">Nombre del producto</th>

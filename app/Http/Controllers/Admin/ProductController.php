@@ -70,7 +70,7 @@ class ProductController extends Controller
 	public function edit($product) 
 	{
 
-		$product=Product::find($id);
+		$product=Product::find($product);
 		$categories=Category::all()->except($product->category->id);
 
 		return view('admin.products.edit',compact('product', 'categories'));

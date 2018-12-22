@@ -25,33 +25,30 @@
                      @endif
                      {{-- end validation --}}
 
-        <form action="{{route('admin.category.update', $category->id)}}" method="post" accept-charset="utf-8">
+        <form action="{{route('admin.category.update', $category->id)}}" method="post" accept-charset="utf-8" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="row">
-
-            <div class="col-sm-6">
-                <div class="form-group label-floating">
-                    <label class="control-label">Nombre del producto </label>
+                <div class="col-sm-6">
+                    <div class="form-group label-floating">
+                    <label class="control-label">Nombre categoria </label>
                     <input type="text" class="form-control"name="name" id="name" value="{{old('name',$category->name)}}">
                 </div>
             </div>
-
-        <div class="col-sm-6">
-            <div class="form-group label-floating">
-                    <label class="control-label">Descripción </label>
-                    <input type="text" class="form-control" name="description" id="description" value="{{old('description',$category->description)}}">
+            <div class="col-sm-6">
+             <label class="control-label">Imagen</label>
+             <input type="file" name="image" id="image" class="btn btn-info">
+             @if ($category->image)
+             <p class="help-block"> Subir solo si desea remplazar la <a href=" {{asset('images/categories/' . $category->image) }} ">imagen actual</a>
+            </p>
+             @endif
+               </div>
             </div>
-        </div>
-    </div>
+          
+            <textarea class="form-control" placeholder="Descripción" rows="5" name="description">{{old('description', $category->description)}}</textarea>
             <button type="submit" class="btn btn-primary">Actualizar categoria</button>
-            <a href="{{route('admin.category')}}" role="button" class="btn btn-default">Cancelar </a>
-</div>
-
-        </form>
-                
-            </div>
+            <a href="{{route('admin.category')}}" role="button" class="btn btn-default">Cancelar </a></form>
         </div>
-
     </div>
+</div>
 
 @endsection

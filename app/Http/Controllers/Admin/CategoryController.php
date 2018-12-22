@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Category;
+use File;
 
 class CategoryController extends Controller
 {
@@ -32,21 +33,30 @@ class CategoryController extends Controller
 
 			 // La validación de campos se encuentra  en el modelo Category.php
 			$this->validate($request,Category::$rules,Category::$message);
+			// Obtenemos del $request solo los campos name y description y creamos la categoria. 
+			 $category = Category::create($request->only('name', 'description'));
+			 // Si exite una imagen en el $request, procesamos la imagen
+			 if($request->hasFile('image')) {
+			 	$file = $request->file('image');
+	    		$path = public_path() . '/images/categories';
+	    		$fileName = uniqid() . '-' . $file->getClientOriginalName();
+	    		$moved = $file->move($path,$fileName);
+	    		// Si el proceso de la imagen ha ido bien actualizamos el campo image de la tabla categories
+	    		if($moved){	
+	    		//update category 
+	    		$category->image = $fileName;
+	    		$category->save(); // UPDATE
 
-			 Category::create($request->all());
-			//  $category = Category::all();
-			// $lastCategory = $category->last();
-			// dd($lastCategory);
-
-			$notification = "La categoria $request->name se ha guardado correctamente.";
+	    	}
+	    }
+			 $notification = "La categoria $request->name se ha guardado correctamente.";
 
 			 if($redirect == 1) { // Redirige a la página de creación de productos si $redirect = 1
-			return redirect('admin/products/create')->with(compact('notification','redirect'));
-			}else{
-			return redirect('admin/categories')->with(compact('notification'));
-		}
-
-		}
+			 	return redirect('admin/products/create')->with(compact('notification','redirect'));
+			 }else{
+			 	return redirect('admin/categories')->with(compact('notification'));
+			 }
+			}
 
 				
 		public function edit(Category $category) 
@@ -59,7 +69,26 @@ class CategoryController extends Controller
 		{
 			$this->validate($request,Category::$rules,Category::$message);
 
-			$category->update($request->all());
+			$category->update($request->only('name', 'description'));
+
+			 if($request->hasFile('image')) {
+			 	$file = $request->file('image');
+	    		$path = public_path() . '/images/categories';
+	    		$fileName = uniqid() . '-' . $file->getClientOriginalName();
+	    		$moved = $file->move($path,$fileName);
+	    		// Si el proceso de la imagen ha ido bien actualizamos el campo image de la tabla categories
+	    		if($moved){	
+	    			$previusPath = $path . '/' . $category->image;
+	    		//update category 
+	    		$category->image = $fileName;
+	    		$saved = $category->save(); // UPDATE
+
+	    		//eliminamos la imagen anterior a la actualización.
+	    		if ($saved)
+	    		  File::delete($previusPath);
+
+	    	}
+	    }
 
 			$notification = "La categoria $category->name se ha actualizado correctamente.";
 

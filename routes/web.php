@@ -6,14 +6,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 /*=============================================
 =      Routes guest - users not logged -      =
 =============================================*/
-Route::get('/','welcomeController@show')->name('welcome'); // Página de inicio. Se muestran las categorias que tienen productos.
+Route::get('/','WelcomeController@show')->name('welcome'); // Página de inicio. Se muestran las categorias que tienen productos.
 // Categories
 Route::get('/categories/{category}/', 'CategoryController@show')->name('category.show'); // Muestra los productos de la categoria  
-// Products
-Route::get('/products/{id}', 'ProductController@show')->name('products.show'); // Muestra el producto que se va a añadir al carrito
 // Search
 Route::get('/search', 'SearchController@show')->name('search');
 Route::get('products/json', 'SearchController@data')->name('products.json');
+// Products
+Route::get('/products/{id}', 'ProductController@show')->name('products.show'); // Muestra el producto que se va a añadir al carrito
 /*=====  End of Section comment block  ======*/
 
 /*=============================================

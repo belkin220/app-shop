@@ -47,7 +47,7 @@ class Product extends Model
     		return $featuredImage->url;
     	}
     	// Imagen por defecto en caso que los if anteriores fallen
-    	return 'images/products/default.png';
+    	return 'images/default.png';
 
 	}
 }

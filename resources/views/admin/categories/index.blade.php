@@ -30,6 +30,7 @@
                     <thead>
                         <tr>
                             <th class = "text-center"> # </th>
+                             <th class = "text-center"> Imagen </th>
                             <th lass="col-md-2 text-center"> Nombre </th>
                             <th class="col-md-4 text-center"> Descripción </th>
 
@@ -39,6 +40,9 @@
                         @foreach($categories as $category)
                         <tr>
                             <td style="vertical-align: middle; text-align: left;"> {{$category->id}} </td>
+
+                            <td class="text-center" style="vertical-align: middle; text-align: center;"> <img src="{{$category->featured_image_url}}" height="50"> </td>
+
                             <td style="vertical-align: middle;text-align: left;"> {{$category->name}} </td>
                             <td style="vertical-align: middle;text-align: left;"> {{$category->description}} </td>
                             <td class = "td-actions text-right" style="vertical-align: middle;text-align: right;">
