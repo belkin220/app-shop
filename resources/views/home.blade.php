@@ -2,6 +2,13 @@
 @extends('layouts.app')
 @section('body-class','product-page')
 @section('title','App Shop| Panel de Control')
+@section('styles')
+<style>
+ .label-info {
+    font-size: medium;
+}
+</style>
+@endsection
 @section('content')
 
 <div class="header header-filter" style="background-image: url('https://images.unsplash.com/photo-1423655156442-ccc11daa4e99?crop=entropy&dpr=2&fit=crop&fm=jpg&h=750&ixjsv=2.1.0&ixlib=rb-0.3.5&q=50&w=1450');">
@@ -77,13 +84,17 @@
                     <tbody>
                         @foreach ( auth()->user()->cart->details as $detail )
                         <tr>
-                            <td class="text-center" style="vertical-align: middle;"><img src="{{$detail->product->featured_image_url}}" width="50" height="50">
-                             </td>
-                            <td style="vertical-align: middle;text-align: left;"><a href="{{route('products.show',$detail->product->id)}}" title="{{
-                                $detail->product->name}}" target="_blank" >{{$detail->product->name}}</a> </td>
-                            <td class = "text-right" style="vertical-align: middle;"> {{str_replace(".", ",",number_format($detail->product->price,2))}} &euro; </td>
+                        <td class="text-center" style="vertical-align: middle;"><img src="{{$detail->product->featured_image_url}}" width="50" height="50">
+                          </td>
+
+                          <td style="vertical-align: middle;text-align: left;"><a href="{{route('products.show',$detail->product->id)}}" title="{{
+                                $detail->product->name}}" target="_blank" >{{$detail->product->name}}</a> 
+                            </td>
+
+                        <td class = "text-right" style="vertical-align: middle;"> {{str_replace(".", ",",number_format($detail->product_price,2))}} &euro; </td>
                             <td class = "text-center" style="vertical-align: middle"> {{$detail->quantity}} </td>
-                            <td class = "text-center" style="vertical-align: middle"> {{str_replace(".", ",", number_format($detail->quantity * $detail->product->price,2)) }} &euro; </td>
+
+                            <td class = "text-center" style="vertical-align: middle"> {{str_replace(".", ",", number_format( $detail->total,2)) }} &euro; </td>
                            
                             <td class = "td-actions text-center" style="vertical-align: middle">
                                 <form action="{{route('cart.delete',$detail->id )}}" method="POST">
@@ -101,16 +112,17 @@
                         @endforeach
                     </tbody>
                 </table>
-                <p><strong>Total a pagar (incluido I.V.A.) : </strong> {{auth()->user()->cart->total}} &euro;</p>
-                <div class="text-center col-md-6">
+                          <p><span class="label label-info" style="font-size: medium;">Importe total (incluido I.V.A.) : </strong> {{auth()->user()->cart->total }} &euro;</span></p>
+            
+                <div class="text-center col-md-6" style="margin-top: 25px">
                 <a href="{{route('welcome')}}#welcome" class="btn btn-primary btn-round">
     <i class="material-icons">shopping_basket</i> Seguir comprando
 </a>
 </div>
-<div class="text-right">
-    <form action="{{route('cart.update')}}" method="post" accept-charset="utf-8">
+<div class="text-right" >
+    <form action="{{route('cart.update')}}" method="post" accept-charset="utf-8" >
         {{csrf_field()}}
-        <button class="btn btn-primary btn-round">
+        <button class="btn btn-primary btn-round" style="margin-top: 25px">
     <i class="material-icons">done</i> Realizar pedido
 </button>
 

@@ -16,7 +16,7 @@
                         <img src="{{$product->featured_image_url}}" alt="Circle Image" class="img-circle img-responsive img-raised">
                     </div>
                      @if (session('notification'))
-                      <div class="alert alert-success" style="margin-top: 25px">
+                      <div class="{{session('classDiv')}}" style="margin-top: 25px">
                           <div class="container-fluid">
                             <div class="alert-icon">
                               <i class="material-icons">check</i>
@@ -39,13 +39,18 @@
             </div>
            
             <div class="text-center"> 
-              
+             @if (auth()->check() && !$carrito && !session('notification')   )
             <button class="btn btn-primary btn-round"  data-toggle="modal" data-target="#modalAddToCart">
                 <i class="material-icons">add_shopping_cart</i> Añadir al carrito
                 </button>
-                @if (session('notification') || $carrito )
-                 <a href="{{route('home')}}" class="btn btn-info btn-round" title="">Ver Carrito</a>
-                 @endif
+                @elseif (auth()->check() == false && !$carrito && !session('notification') )
+                 <a href="{{url('login?redirect_to='.url()->current())}}" class="btn btn-primary btn-round">
+                <i class="material-icons">add_shopping_cart</i> Añadir al carrito
+                </a>
+                @elseif (session('notification') || $carrito ) 
+                <a href="{{route('home')}}" class="btn btn-info btn-round" title="">Ver Carrito</a>
+                @endif
+
             </div>
            <div class="row">
                 <div class="col-md-6 col-md-offset-3">
@@ -91,7 +96,11 @@
                     {{csrf_field()}}
                     <input type="hidden" name="product_id" value="{{$product->id}}">
                   <div class="modal-body">
-                 <input type="number" class="form-control" name="quantity" placeholder="Cantidad" required>
+                  <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Cantidad" min="0" required>
+                  <input type="text" class="form-control" id="product_price" name="product_price" value="{{$product->price}}" placeholder="Precio x unidad">
+                  <p class="help-block">Precio por unidad</p>
+                   <input type="text" class="form-control" id="total" name="total" value="">
+                  <p class="help-block">Precio de esta compra</p>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
@@ -101,6 +110,16 @@
           </div>
               </div>
             </div>
-          
+        
+  @endsection
+  @section('scripts')
+  <script>
+$('#quantity').on('change', function() {
+  var t = $(this).val() * $('#product_price').val();
+  $('#total').val(t);
 
-@endsection
+  // body...
+})
+</script>
+  @endsection
+

@@ -11,19 +11,8 @@
                         @csrf
                     <div class="header header-primary text-center">
                         <h4>Inicio de sesión</h4>
-                        {{-- <div class="social-line">
-                            <a href="#" class="btn btn-simple btn-just-icon">
-                                <i class="fa fa-facebook-square"></i>
-                            </a>
-                            <a href="#" class="btn btn-simple btn-just-icon">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                            <a href="#" class="btn btn-simple btn-just-icon">
-                                <i class="fa fa-google-plus"></i>
-                            </a>
-                        </div> --}}
                     </div>
-                    <p class="text-divider">Ingresa tus credenciales</p>
+                    <p class="text-divider">Ingresa tus credenciales o <a href="{{url('register')}}">crea una cuenta</a></p>
                     <div class="content">
 
                         <div class="input-group">
